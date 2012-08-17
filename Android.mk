@@ -600,6 +600,11 @@ LOCAL_SRC_FILES_arm += \
 	src/opts/SkXfermode_opts_arm.cpp
 
 ifeq ($(ARCH_ARM_HAVE_NEON), true)
+
+LOCAL_CFLAGS += -DNEON_BLITANTIH
+LOCAL_SRC_FILES += \
+	src/core/asm/SkBlitter_RGB16_NEON.S
+
 LOCAL_SRC_FILES_arm += \
 	src/opts/S32A_Opaque_BlitRow32_neon.S \
 	src/opts/S32A_Blend_BlitRow32_neon.S \

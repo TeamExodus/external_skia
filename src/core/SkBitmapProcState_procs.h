@@ -340,6 +340,7 @@ static inline U8CPU Filter_8(unsigned x, unsigned y,
 #define POSTAMBLE(state)        state.fBitmap->getColorTable()->unlockColors()
 #include "SkBitmapProcState_shaderproc.h"
 
+#if !defined(__LP64__)
 #define TILEX_PROCF(fx, max)    SkClampMax((fx) >> 16, max)
 #define TILEY_PROCF(fy, max)    SkClampMax((fy) >> 16, max)
 #define TILEX_LOW_BITS(fx, max) (((fx) >> 12) & 0xF)
@@ -355,5 +356,6 @@ static inline U8CPU Filter_8(unsigned x, unsigned y,
 #define S32_OPAQUE_D32_FILTER_DX_NEON   (!SK_ARM_NEON_IS_NONE)
 #include "SkBitmapProcState_shaderproc.h"
 #undef S32_OPAQUE_D32_FILTER_DX_NEON
+#endif //#if !defined(__LP64__)
 
 #undef NAME_WRAP

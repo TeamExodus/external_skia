@@ -1,6 +1,6 @@
 /*
  * Copyright 2012 The Android Open Source Project
- *
+ * Copyright (c) 2013 The Linux Foundation. All rights reserved.
  * Use of this source code is governed by a BSD-style license that can be
  * found in the LICENSE file.
  */
@@ -16,6 +16,16 @@
 
 #include "SkColor_opts_neon.h"
 #include <arm_neon.h>
+
+extern "C"  void S32A_Opaque_BlitRow32_arm(SkPMColor* SK_RESTRICT dst,
+                                            const SkPMColor* SK_RESTRICT src,
+                                            int count,
+                                            U8CPU alpha);
+
+extern "C"  void S32A_Blend_BlitRow32_arm_neon(SkPMColor* SK_RESTRICT dst,
+                                          const SkPMColor* SK_RESTRICT src,
+                                          int count,
+                                          U8CPU alpha);
 
 #ifdef SK_CPU_ARM64
 static inline uint8x8x4_t sk_vld4_u8_arm64_3(const SkPMColor* SK_RESTRICT & src) {
@@ -638,7 +648,9 @@ void S32_D565_Blend_Dither_neon(uint16_t *dst, const SkPMColor *src,
         } while (--count != 0);
     }
 }
-
+/*
+ * Use S32A_Opaque_BlitRow32 function from S32A_Opaque_BlitRow32.S
+ */
 void S32A_Opaque_BlitRow32_neon(SkPMColor* SK_RESTRICT dst,
                                 const SkPMColor* SK_RESTRICT src,
                                 int count, U8CPU alpha) {
@@ -1550,7 +1562,7 @@ void Color32_arm_neon(SkPMColor* dst, const SkPMColor* src, int count,
 
 const SkBlitRow::Proc sk_blitrow_platform_565_procs_arm_neon[] = {
     // no dither
-    S32_D565_Opaque_neon,
+    NULL,
     S32_D565_Blend_neon,
 #ifdef SK_CPU_ARM32
     S32A_D565_Opaque_neon,
@@ -1582,10 +1594,10 @@ const SkBlitRow::Proc32 sk_blitrow_platform_32_procs_arm_neon[] = {
     // This proc assumes the alpha value occupies bits 24-32 of each SkPMColor
     S32A_Opaque_BlitRow32_neon_src_alpha,   // S32A_Opaque,
 #else
-    S32A_Opaque_BlitRow32_neon,     // S32A_Opaque,
+    S32A_Opaque_BlitRow32_arm,     // arm is better for this
 #endif
 #ifdef SK_CPU_ARM32
-    S32A_Blend_BlitRow32_neon        // S32A_Blend
+    S32A_Blend_BlitRow32_arm_neon        // S32A_Blend
 #else
     NULL
 #endif

@@ -602,6 +602,9 @@ LOCAL_SRC_FILES_arm += \
 
 ifeq ($(ARCH_ARM_HAVE_NEON), true)
 LOCAL_SRC_FILES_arm += \
+	src/opts/S32A_Blend_BlitRow32_arm.S \
+	src/opts/S32A_D565_Opaque_arm.S \
+	src/opts/S32A_Opaque_BlitRow32_arm.S \
 	src/opts/memset16_neon.S \
 	src/opts/memset32_neon.S \
 	src/opts/SkBitmapProcState_arm_neon.cpp \

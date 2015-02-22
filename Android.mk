@@ -57,10 +57,15 @@ ifneq ($(strip $(TARGET_FDO_CFLAGS)),)
 	LOCAL_CFLAGS += -O2
 endif
 
+ifeq ($(BONE_STOCK),true)
 LOCAL_CFLAGS += \
 	-Wno-unused-parameter \
 	-U_FORTIFY_SOURCE \
 	-D_FORTIFY_SOURCE=1
+else
+LOCAL_CFLAGS += \
+    -Wno-unused-parameter
+endif
 
 LOCAL_CPPFLAGS := \
 	-Wno-invalid-offsetof

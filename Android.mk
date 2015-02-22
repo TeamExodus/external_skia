@@ -694,6 +694,7 @@ include $(BUILD_SHARED_LIBRARY)
 # Build the skia tools
 #
 
+ifeq ($(user_variant),debug)
 # benchmark (timings)
 include $(BASE_PATH)/bench/Android.mk
 include $(BASE_PATH)/tools/Android.mk
@@ -706,3 +707,4 @@ include $(BASE_PATH)/tests/Android.mk
 
 # diamond-master (one test to rule them all)
 include $(BASE_PATH)/dm/Android.mk
+endif

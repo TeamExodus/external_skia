@@ -396,7 +396,9 @@ private:
             return v.fKey;
         }
         static uint32_t Hash(Key key) {
-            return compute_hash(reinterpret_cast<const uint32_t*>(&key), sizeof(Key) / sizeof(uint32_t));
+			const uint32_t* data;
+			memcpy(&data, &key, sizeof(uint32_t*));
+            return compute_hash(data, sizeof(Key) / sizeof(uint32_t));
         }
     };
     SkTDynamicHash<Value, Key> fData;

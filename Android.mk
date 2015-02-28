@@ -603,8 +603,8 @@ LOCAL_SRC_FILES_arm += \
 
 ifeq ($(ARCH_ARM_HAVE_NEON), true)
 
-LOCAL_CFLAGS += -DNEON_BLITANTIH
-LOCAL_SRC_FILES += \
+# this file was originaly set to LOCAL_SRC_FILES but breaks 64-bit builds
+LOCAL_SRC_FILES_arm += \
 	src/core/asm/SkBlitter_RGB16_NEON.S
 
 LOCAL_SRC_FILES_arm += \
@@ -626,7 +626,8 @@ LOCAL_SRC_FILES_arm += \
 	src/opts/D32_A8_Black_Neon.S
 
 LOCAL_CFLAGS_arm += \
-	-D__ARM_HAVE_NEON
+	-D__ARM_HAVE_NEON \
+	-DNEON_BLITANTIH
 
 endif
 

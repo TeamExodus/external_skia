@@ -208,7 +208,7 @@ static void S32A_D565_Blend_Dither(uint16_t* SK_RESTRICT dst,
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-#if defined(SK_BUILD_FOR_ANDROID) && defined(SK_CPU_LENDIAN)
+#if defined(SK_BUILD_FOR_ANDROID) && defined(SK_CPU_LENDIAN) && !defined(__LP64__)
     extern "C" void S32A_D565_Opaque_arm(uint16_t*, uint32_t*, size_t);
 #endif
 
@@ -217,7 +217,7 @@ static const SkBlitRow::Proc gDefault_565_Procs[] = {
     S32_D565_Opaque,
     S32_D565_Blend,
 
-#if defined(SK_BUILD_FOR_ANDROID) && defined(SK_CPU_LENDIAN)
+#if defined(SK_BUILD_FOR_ANDROID) && defined(SK_CPU_LENDIAN) && !defined(__LP64__)
     (SkBlitRow::Proc)S32A_D565_Opaque_arm,
 #else
     S32A_D565_Opaque,

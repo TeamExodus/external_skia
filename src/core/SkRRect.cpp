@@ -431,8 +431,20 @@ size_t SkRRect::readFromMemory(const void* buffer, size_t length) {
     // we make a local copy, to ensure alignment before we cast
     memcpy(storage, buffer, kSizeInMemory);
 
-    this->setRectRadii(*(const SkRect*)&storage[0],
-                       (const SkVector*)&storage[4]);
+    union {
+        const SkRect* rect;
+        float* f;
+    } store_1;
+    store_1.f = &storage[0];
+
+    union {
+        const SkPoint* p;
+        float* f;
+    } store_2;
+    store_2.f = &storage[4];
+    const SkVector* sk_vect = store_2.p;
+
+    this->setRectRadii(*store_1.rect, sk_vect);
     return kSizeInMemory;
 }
 

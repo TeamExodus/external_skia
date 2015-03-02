@@ -919,8 +919,15 @@ void GrAARectRenderer::fillAANestedRects(GrGpu* gpu,
 
     SkRect devOutside, devOutsideAssist, devInside;
     combinedMatrix.mapRect(&devOutside, rects[0]);
+    
+    SkPoint* point_1;
+    const SkPoint* point_2;
+    memcpy(&point_1, &devInside, sizeof(SkPoint*));
+    memcpy(&point_2, &rects[1], sizeof(const SkPoint*));
+    
     // can't call mapRect for devInside since it calls sort
-    combinedMatrix.mapPoints((SkPoint*)&devInside, (const SkPoint*)&rects[1], 2);
+    combinedMatrix.mapPoints(point_1, point_2, 2);
+    // combinedMatrix.mapPoints((SkPoint*)&devInside, (const SkPoint*)&rects[1], 2);
 
     if (devInside.isEmpty()) {
         this->fillAARect(gpu, target, devOutside, SkMatrix::I(), devOutside, useVertexCoverage);

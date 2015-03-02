@@ -167,8 +167,8 @@ int UlpsDistance(float a, float b) {
 static double cbrt_5d(double d) {
     const unsigned int B1 = 715094163;
     double t = 0.0;
-    unsigned int* pt = (unsigned int*) &t;
-    unsigned int* px = (unsigned int*) &d;
+    unsigned int* pt; memcpy(&pt, &t, sizeof(double)); // = (unsigned int*) &t;
+    unsigned int* px; memcpy(&px, &d, sizeof(double)); // = (unsigned int*) &d;
     pt[1] = px[1] / 3 + B1;
     return t;
 }

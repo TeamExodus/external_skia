@@ -200,7 +200,7 @@ int get_float_exp(float x) {
         SkASSERT(get_float_exp(3000000.f) == 21);
     }
 #endif
-    const int* iptr = (const int*)&x;
+    const int* iptr; memcpy(&iptr, &x, sizeof(float)); // = (const int*)&x;
     return (((*iptr) & 0x7f800000) >> 23) - 127;
 }
 

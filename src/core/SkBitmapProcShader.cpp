@@ -18,10 +18,8 @@
 #endif
 
 #include "SkBitmapProcState_utils.h"
-#if !SK_ARM_NEON_IS_NONE
-#if !defined(__LP64__)
+#if defined(__ARM_NEON__) && !defined(__LP64__)
 extern void  Clamp_S32_Opaque_D32_filter_DX_shaderproc_neon(const SkBitmapProcState&, int, int, uint32_t*, int);
-#endif
 #endif
 
 bool SkBitmapProcShader::CanDo(const SkBitmap& bm, TileMode tx, TileMode ty) {
@@ -234,15 +232,13 @@ void SkBitmapProcShader::BitmapProcShaderContext::shadeSpan(int x, int y, SkPMCo
                                                             int count) {
     const SkBitmapProcState& state = *fState;
     if (state.getShaderProc32()) {
-#if !SK_ARM_NEON_IS_NONE
-#if !defined(__LP64__)
+#if defined(__ARM_NEON__) && !defined(__LP64__)
         if (state.getShaderProc32() == Clamp_S32_Opaque_D32_filter_DX_shaderproc_neon) {
             if (checkDecal(state, x, y, count)) {
                 state.getShaderProc32()(state, x, y, dstC, count);
                 return;
             }
         } else
-#endif
 #endif
         {
             state.getShaderProc32()(state, x, y, dstC, count);

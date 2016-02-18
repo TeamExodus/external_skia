@@ -58,10 +58,10 @@ ifeq ($(NO_FALLBACK_FONT),true)
 endif
 
 LOCAL_CFLAGS += \
-	-fPIC \
+    -O3 \
 	-Wno-unused-parameter \
 	-U_FORTIFY_SOURCE \
-	-D_FORTIFY_SOURCE=1 \
+	-D_FORTIFY_SOURCE=0 \
 	-DSKIA_IMPLEMENTATION=1 \
 	-Wno-clobbered
 

@@ -588,7 +588,6 @@ LOCAL_SRC_FILES := \
 	src/core/SkFlate.cpp
 
 LOCAL_SHARED_LIBRARIES := \
-	liblog \
 	libGLESv2 \
 	libEGL \
 	libz \

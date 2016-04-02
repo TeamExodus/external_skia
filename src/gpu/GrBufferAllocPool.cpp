@@ -14,8 +14,6 @@
 #include "GrTypes.h"
 #include "GrVertexBuffer.h"
 
-#include "SkTraceEvent.h"
-
 #ifdef SK_DEBUG
     #define VALIDATE validate
 #else
@@ -26,12 +24,8 @@
 #define GrBufferAllocPool_MIN_BLOCK_SIZE ((size_t)1 << 12)
 
 #define UNMAP_BUFFER(block)                                                               \
-do {                                                                                      \
-    TRACE_EVENT_INSTANT1(TRACE_DISABLED_BY_DEFAULT("skia.gpu"),                           \
-                         "GrBufferAllocPool Unmapping Buffer",                            \
-                         TRACE_EVENT_SCOPE_THREAD,                                        \
-                         "percent_unwritten",                                             \
-                         (float)((block).fBytesFree) / (block).fBuffer->gpuMemorySize()); \
+do {                                                                                      \ 
+    (float)((block).fBytesFree) / (block).fBuffer->gpuMemorySize();                       \
     (block).fBuffer->unmap();                                                             \
 } while (false)
 

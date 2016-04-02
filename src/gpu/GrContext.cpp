@@ -44,7 +44,6 @@
 #include "SkStrokeRec.h"
 #include "SkTLazy.h"
 #include "SkTLS.h"
-#include "SkTraceEvent.h"
 
 #include "effects/GrConfigConversionEffect.h"
 #include "effects/GrDashingEffect.h"

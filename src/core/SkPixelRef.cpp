@@ -8,7 +8,6 @@
 #include "SkBitmapCache.h"
 #include "SkPixelRef.h"
 #include "SkThread.h"
-#include "SkTraceEvent.h"
 
 #ifdef SK_BUILD_FOR_WIN32
     // We don't have SK_BASE_MUTEX_INIT on Windows.
@@ -156,9 +155,7 @@ bool SkPixelRef::lockPixels(LockRec* rec) {
     SkASSERT(!fPreLocked || SKPIXELREF_PRELOCKED_LOCKCOUNT == fLockCount);
 
     if (!fPreLocked) {
-        TRACE_EVENT_BEGIN0("skia", "SkPixelRef::lockPixelsMutex");
         SkAutoMutexAcquire  ac(*fMutex);
-        TRACE_EVENT_END0("skia", "SkPixelRef::lockPixelsMutex");
 
         if (1 == ++fLockCount) {
             SkASSERT(fRec.isZero());

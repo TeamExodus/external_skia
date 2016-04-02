@@ -65,6 +65,11 @@ LOCAL_CFLAGS += \
 	-DSKIA_IMPLEMENTATION=1 \
 	-Wno-clobbered
 
+LOCAL_CFLAGS += \
+    -fstrict-aliasing \
+    -Wstrict-aliasing \
+    -Werror=strict-aliasing
+
 LOCAL_CPPFLAGS := \
 	-std=c++11 \
 	-Wno-invalid-offsetof

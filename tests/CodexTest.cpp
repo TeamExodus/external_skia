@@ -628,6 +628,9 @@ DEF_TEST(Codec_Empty, r) {
     test_invalid(r, "empty_images/zero-height.wbmp");
     // This image is an ico with an embedded mask-bmp.  This is illegal.
     test_invalid(r, "invalid_images/mask-bmp-ico.ico");
+#if defined(SK_CODEC_DECODES_RAW) && (!defined(_WIN32))
+    test_invalid(r, "empty_images/zero_height.tiff");
+#endif
 }
 
 static void test_invalid_parameters(skiatest::Reporter* r, const char path[]) {
@@ -999,4 +1002,16 @@ DEF_TEST(Codec_jpeg_rewind, r) {
     // Rewind the codec and perform a full image decode.
     SkCodec::Result result = codec->getPixels(codec->getInfo(), pixelStorage.get(), rowBytes);
     REPORTER_ASSERT(r, SkCodec::kSuccess == result);
+}
+
+DEF_TEST(Codec_InvalidRLEBmp, r) {
+    auto* stream = GetResourceAsStream("invalid_images/b33251605.bmp");
+    if (!stream) {
+        return;
+    }
+
+    SkAutoTDelete<SkCodec> codec(SkCodec::NewFromStream(stream));
+    REPORTER_ASSERT(r, codec);
+
+    test_info(r, codec.get(), codec->getInfo(), SkCodec::kIncompleteInput, nullptr);
 }
